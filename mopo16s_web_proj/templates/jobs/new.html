@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Start a new job{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'jobs.list' %}">Jobs</a></li>
+  <li class="breadcrumb-item active">New job</li>
+{% endblock %}
+
+{% block content %}
+  <form method="post" class="mb-4" novalidate onsubmit="return confirm('Are you sure to start the job?')">
+    {% csrf_token %}
+    {% include 'includes/form.html' %}
+    <button type="submit" class="btn btn-success">Start job</button>
+  </form>
+{% endblock %}

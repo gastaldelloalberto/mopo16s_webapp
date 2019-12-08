@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load humanize tz %}
+
+{% block title %}Primers{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'primers.list' %}">Primers</a></li>
+  <li class="breadcrumb-item active">Primer set details</li>
+{% endblock %}
+
+{% block content %}
+  <div class="card module aligned p-3">
+    <div class="card-body">
+      <div class="row mb-3">
+        <label class="text-primary mr-2">Name:</label>
+        {{ primer.name }}
+      </div>
+      <div class="row mb-3">
+        <label class="text-primary mr-2">Description:</label>
+        <div>{{ primer.description }}</div>
+      </div>
+      <div class="row mb-3">
+        <label class="text-primary mr-2">Sequences count:</label>
+        <div>{{ primer.sequences_count }}</div>
+      </div>
+      <div class="row mb-3">
+        <label class="text-primary mr-2">Uploader:</label>
+        {{ primer.uploaded_by }}
+      </div>
+      <div class="row mb-3">
+        <label class="text-primary mr-2">Uploaded:</label>
+        {{ primer.date_uploaded|localtime }} ({{ primer.date_uploaded|naturaltime }})
+      </div>
+      <div class="row mb-3">
+        <label class="text-primary mr-2">Public:</label>
+        {{ primer.is_public|yesno }}
+      </div>
+    </div>
+  </div>
+{% endblock %}

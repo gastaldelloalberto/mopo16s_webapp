@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}mopo16S Webapp{% endblock %}</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sonsie+One&display=swap">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+  {% block stylesheet %}{% endblock %}
+</head>
+<body>
+{% block body %}
+  <div id="navbar">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">mopo16S Webapp</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu"
+                aria-controls="mainMenu" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainMenu">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'jobs.list' %}">Jobs</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'sequences.list' %}">Sequences</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'primers.list' %}">Primers</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.dei.unipd.it/~baruzzog/mopo16S.html" target="_blank" rel="noopener">Mopo16S</a>
+            </li>
+          </ul>
+          {% if user.is_authenticated %}
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="false">
+                  {{ user.username }}
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
+                  <a class="dropdown-item" href="{% url 'my_account' %}">My account</a>
+                  <a class="dropdown-item" href="{% url 'password_change' %}">Change password</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
+                </div>
+              </li>
+            </ul>
+          {% else %}
+            <form class="form-inline ml-auto">
+              <a href="{% url 'login' %}" class="btn btn-outline-secondary">Log in</a>
+              <a href="{% url 'signup' %}" class="btn btn-primary ml-2">Sign up</a>
+            </form>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+  </div>
+  <div class="wrapper">
+    <div class="container">
+      <ol class="breadcrumb my-3 alert-success">
+        {% block breadcrumb %}{% endblock %}
+      </ol>
+      {% block content %}{% endblock %}
+    </div>
+    <div class="push"></div>
+  </div>
+  <footer class="footer mt-auto py-3">
+    <div class="container">
+      <div>
+        <a href="https://www.dei.unipd.it/~baruzzog/mopo16S.html" rel="nofollow noopener" target="_blank">
+          <img src="{% static 'img/16S.gif' %}" alt="mopo16S Webapp" class="img-fluid mr-2" style="width: 30px">
+        </a>
+        Copyright © <a href="https://t.me/gastaldelloalberto">Alberto Gastaldello</a> 2019
+        <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+          <img alt="Licenza Creative Commons" class="ml-1 mb-1" style="border-width:0"
+               src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png"/>
+        </a>
+      </div>
+    </div>
+  </footer>
+{% endblock body %}
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+{% block javascript %}{% endblock %}
+</body>
+</html>

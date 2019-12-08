@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}New representative sequence set{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'sequences.list' %}">Sequence sets</a></li>
+  <li class="breadcrumb-item active">New sequence set</li>
+{% endblock %}
+
+{% block content %}
+  <form enctype="multipart/form-data" method="post" class="mb-4" novalidate
+        onsubmit="return confirm('Are you sure to upload the representative sequence set?')">
+    {% csrf_token %}
+    {% include 'includes/form.html' %}
+    <button type="submit" class="btn btn-success">Upload sequence set</button>
+  </form>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Results{% endblock %}
+{% block stylesheet %}
+  <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-html5-1.6.1/b-print-1.6.1/sl-1.3.1/datatables.min.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css">
+{% endblock stylesheet %}
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">Results</li>
+{% endblock %}
+
+{% block content %}
+  
+
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="charts-btn" data-toggle="tab" href="#charts-tab" role="tab"
+         aria-controls="charts-tab"
+         aria-selected="true">Charts</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="initial-btn" data-toggle="tab" href="#initial-tab" role="tab" aria-controls="initial-tab"
+         aria-selected="false">Initial primer pairs</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="output-btn" data-toggle="tab" href="#output-tab" role="tab" aria-controls="output-tab"
+         aria-selected="false">Optimized primer pairs</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="download-btn" data-toggle="tab" href="#download-tab" role="tab"
+         aria-controls="download-tab"
+         aria-selected="false">Download data</a>
+    </li>
+  </ul>
+
+
+  <div class="tab-content">
+    <div class="tab-pane fade show active" id="charts-tab" role="tabpanel" aria-labelledby="charts-tab">
+      <div class="d-flex justify-content-center mt-4 mb-1" style="width: 100%">
+        Select the score to display in the 3rd dimension (circles radius).
+      </div>
+      <div class="d-flex justify-content-center mb-5" style="width: 100%">
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+          <label class="btn btn-primary">
+            <input type="radio" name="options" id="sel_axis0" autocomplete="off">Efficiency
+          </label>
+          <label class="btn btn-primary">
+            <input type="radio" name="options" id="sel_axis1" autocomplete="off">Coverage
+          </label>
+          <label class="btn btn-primary active">
+            <input type="radio" name="options" id="sel_axis2" autocomplete="off" checked>Matching-bias
+          </label>
+        </div>
+      </div>
+      <div style="width: 100%">
+        <canvas id="chart_1" width="100px"></canvas>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="initial-tab" role="tabpanel" aria-labelledby="initial-tab">
+      <div class="table-responsive my-3" style="width: 100%">
+        {{ result.0|safe }}
+      </div>
+    </div>
+    <div class="tab-pane fade" id="output-tab" role="tabpanel" aria-labelledby="output-tab">
+      <div class="table-responsive my-3" style="width: 100%">
+        {{ result.1|safe }}
+      </div>
+    </div>
+    <div class="tab-pane fade" id="download-tab" role="tabpanel" aria-labelledby="download-tab">
+      <div class="my-3">
+        <div class="d-flex justify-content-center" style="width: 100%">
+          Here you can download mopo16S result files (zip file) or tables (csv)
+        </div>
+        <div class="d-flex justify-content-center" style="width: 100%">
+          <a href="{% url 'results.download' result.3 %}" class="btn btn-success m-2" role="button">Download zip</a>
+          <a href="{% url 'results.download' result.3 %}" class="btn btn-success m-2" role="button">Download csv</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+{% block javascript %}
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+  <script type="text/javascript"
+          src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/af-2.3.4/b-1.6.1/b-colvis-1.6.1/b-flash-1.6.1/b-html5-1.6.1/b-print-1.6.1/cr-1.5.2/fc-3.3.0/kt-2.5.1/rr-1.2.6/sl-1.3.1/datatables.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+  <script src="{% static 'js/datatables.js' %}"></script>
+  <script src="{% static 'js/chart_1.js' %}"></script>
+  <script type="text/javascript">window.result = {{result.2|safe}};</script>
+  <script type="text/javascript">$('.btn-group-toggle input:radio#sel_axis0').on('change', function () {
+      window.scoreIndexes = [3, 4, 2];
+      renderChart();
+  })</script>
+  <script type="text/javascript">$('.btn-group-toggle input:radio#sel_axis1').on('change', function () {
+      window.scoreIndexes = [2, 4, 3];
+      renderChart();
+  })</script>
+  <script type="text/javascript">$('.btn-group-toggle input:radio#sel_axis2').on('change', function () {
+      window.scoreIndexes = [2, 3, 4];
+      renderChart();
+  })</script>
+{% endblock javascript %}

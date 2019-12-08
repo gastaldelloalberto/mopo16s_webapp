@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item active"><b>Welcome to mopo16S web application!</b></li>
+{% endblock breadcrumb %}
+{% block content %}
+  <div class="m-2 alert alert-primary">
+    One of the key tools for studying microbial diversity of a site is the targeted amplicon sequencing of an
+    informative marker, such as the ribosomal small subunit (16S ribosomal DNA). The accuracy of targeted amplicon
+    sequencing strongly depends on the choice of primer pairs.
+    <br>
+    <a href="https://www.dei.unipd.it/~baruzzog/mopo16S.html"><b><i>mopo16S</i></b></a> offers an automated method for
+    optimal
+    multi-objective bacterial 16S primers design.
+    <br>
+    <br>
+    <br>
+    <H5>What can this app do?</H5>
+    This web application provides access to mopo16S functions through an easy-to-use graphic interface.
+    The purpose is to allow the execution of the calculations in a cloud environment and to provide data analytics
+    tools.
+    <br>
+    <br>
+    <br>
+    <b>1)</b> Upload your sequence set or check if existing databases are suitable for you.
+    <div class="m-2">
+      <a href="{% url 'sequences.list' %}" class="btn btn-primary" role="button">View existing sequences</a>
+      <a href="{% url 'sequences.new' %}" class="btn btn-primary" role="button">Create new sequence set</a>
+    </div>
+    <br>
+    <b>2)</b> Upload your primer set.
+    <div class="m-2">
+      <a href="{% url 'primers.list' %}" class="btn btn-primary" role="button">View existing primers</a>
+      <a href="{% url 'primers.new' %}" class="btn btn-primary" role="button">Create new primer set</a>
+    </div>
+    <br>
+    <b>3)</b> Submit your job defining mopo16S parameters.
+    <div class="m-2">
+      <a href="{% url 'jobs.list' %}" class="btn btn-primary" role="button">View submitted jobs</a>
+      <a href="{% url 'jobs.new' %}" class="btn btn-primary" role="button">Create new job</a>
+    </div>
+    <br>
+    <b>4)</b> View job results with plots and tables.
+    <div class="m-2">
+      <a href="{% url 'jobs.list' %}" class="btn btn-primary" role="button">View results</a>
+    </div>
+
+  </div>
+  <div class="m-2 my-4 alert alert-info">
+    <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+      <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png"/>
+    </a>
+    <br/>
+    <b><i>mopo16S Webapp</i></b> by
+    <a href="https://t.me/gastaldelloalberto">Alberto Gastaldello</a>
+    is licensed under
+    <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons BY-NC-SA 4.0 license</a>.
+    <br/>
+    Source code is published on github at <a href="https://github.com/gastaldelloalberto/mopo16s_webapp">this link</a>.
+  </div>
+{% endblock content %}

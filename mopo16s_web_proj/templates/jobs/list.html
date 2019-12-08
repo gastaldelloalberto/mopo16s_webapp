@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% load humanize tz %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">Jobs</li>
+{% endblock breadcrumb %}
+{% block content %}
+  <div>
+    <a href="{% url 'jobs.new' %}" class="btn btn-primary mb-3" role="button">Create new job</a>
+  </div>
+  <div class="table-responsive">
+    <table class="table">
+      <thead class="thead-inverse">
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th></th>
+        <th>Creator</th>
+        <th>Public</th>
+        <th>Created</th>
+        <th>Status</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for job in jobs %}
+        <tr>
+          <td class="align-right align-middle">
+            <a href="{% url 'jobs.details' job.id %}">{{ job.name }}</a>
+          </td>
+          <td class="align-middle">
+            <small class="text-muted d-block">{{ job.description }}</small>
+          </td>
+          <td class="align-middle">
+            {% if job.is_completed %}
+              <a href="{% url 'results.view' job.id %}" class="btn btn-success" role="button">View results</a>
+            {% endif %}
+          </td>
+          <td class="align-middle">
+            {{ job.created_by.username }}
+          </td>
+          <td class="align-middle checkbox">
+            <input type="checkbox" {% if job.is_public %}checked{% else %}unchecked{% endif %} disabled>
+          </td>
+          <td class="align-middle">
+            {{ job.date_created|naturaltime }}
+            <small class="text-muted d-block">{{ job.date_created|localtime }}</small>
+          </td>
+          <td class="align-middle">
+            <small class="text-muted d-block">{{ job.status }}</small>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% include 'includes/pagination.html' %}
+  <div>
+    <a href="{% url 'jobs.new' %}" class="btn btn-primary" role="button">Create new job</a>
+  </div>
+{% endblock content %}

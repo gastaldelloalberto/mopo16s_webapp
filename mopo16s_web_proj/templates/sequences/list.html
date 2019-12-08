@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% load humanize tz %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">Sequence sets</li>
+{% endblock %}
+{% block content %}
+  <div>
+    <a href="{% url 'sequences.new' %}" class="btn btn-primary" role="button">Create new sequence set</a>
+  </div>
+  <br>
+  <div class="table-responsive">
+    <table class="table">
+      <thead class="thead-inverse">
+      <tr>
+        <th>Name</th>
+        <th># sequences</th>
+        <th>Public</th>
+        <th>Curated</th>
+        <th>Created</th>
+        <th>Creator</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for sequence in sequences %}
+        <tr>
+          <td class="align-middle">
+            <a href="{% url 'sequences.details' sequence.id %}">{{ sequence.name }}</a>
+          </td>
+          <td class="align-middle">
+            {{ sequence.sequences_count }}
+          </td>
+          <td class="align-middle checkbox">
+            <input type="checkbox" {% if sequence.is_public %}checked{% else %}unchecked{% endif %} disabled>
+          </td>
+          <td class="align-middle checkbox">
+            <input type="checkbox" {% if sequence.is_curated %}checked{% else %}unchecked{% endif %} disabled>
+          </td>
+          <td class="align-middle">
+            {{ sequence.date_uploaded|naturaltime }}
+            <small class="text-muted d-block">{{ sequence.date_uploaded|localtime }}</small>
+          </td>
+          <td class="align-middle">
+            {{ sequence.uploaded_by }}
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% include 'includes/pagination.html' %}
+  <div>
+    <a href="{% url 'sequences.new' %}" class="btn btn-primary" role="button">Create new sequence set</a>
+  </div>
+  <br>
+{% endblock %}
